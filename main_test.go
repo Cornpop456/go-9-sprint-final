@@ -2,21 +2,35 @@ package main
 
 // Пишите тесты в этом файле
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestGenerateRandomElements(t *testing.T) {
-	result := generateRandomElements(0)
-	assert.Equal(t, []int{}, result)
+	testCases := []struct {
+		size int
+	}{
+		{size: 0},
+		{size: 1},
+		{size: 10},
+		{size: 1000},
+	}
 
-	result = generateRandomElements(10)
-	assert.Len(t, result, 10)
+	for _, tc := range testCases {
+		t.Run(fmt.Sprintf("Test case with size %d", tc.size), func(t *testing.T) {
+			result := generateRandomElements(tc.size)
 
-	for _, v := range result {
-		assert.GreaterOrEqual(t, v, 0)
-		assert.LessOrEqual(t, v, SIZE)
+			require.Len(t, result, tc.size)
+
+			for _, v := range result {
+				assert.GreaterOrEqual(t, v, 0)
+				assert.LessOrEqual(t, v, SIZE)
+			}
+
+		})
 	}
 }
 
@@ -32,8 +46,10 @@ func TestMaximum(t *testing.T) {
 		{data: []int{6, 5, 4, 3, 2, 1}, expected: 6},
 	}
 
-	for _, tc := range testCases {
-		result := maximum(tc.data)
-		assert.Equal(t, tc.expected, result)
+	for i, tc := range testCases {
+		t.Run(fmt.Sprintf("Test case %d", i+1), func(t *testing.T) {
+			result := maximum(tc.data)
+			assert.Equal(t, tc.expected, result)
+		})
 	}
 }

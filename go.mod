@@ -1,3 +1,3 @@
-module github.com/Yandex-Practicum/sprint9-final
+module github.com/Cornpop456/go-9-sprint-final
 
-go 1.24.1
+go 1.24.0
